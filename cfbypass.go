@@ -82,7 +82,7 @@ func GetTokens(url string, ua string, ipFamily string) []*http.Cookie {
 	switch ipFamily {
 		case "6":
 			ipv6Transport := &http.Transport{
-				Proxy: http.ProxyURL(randomUA()),
+				Proxy: http.ProxyURL(randomp()),
 				MaxIdleConns: 100,
 				IdleConnTimeout: 90 * time.Second,
 				TLSHandshakeTimeout: 10 * time.Second,
@@ -95,7 +95,7 @@ func GetTokens(url string, ua string, ipFamily string) []*http.Cookie {
 			fmt.Println("Forcing ipv6")
 		case "4":
 			ipv4Transport := &http.Transport{
-				Proxy: http.ProxyURL(randomUA()),
+				Proxy: http.ProxyURL(randomp()),
 				MaxIdleConns: 100,
 				IdleConnTimeout: 90 * time.Second,
 				TLSHandshakeTimeout: 10 * time.Second,
