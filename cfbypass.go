@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"math/rand"
 	"regexp"
 	"strings"
 	"time"
@@ -23,7 +24,7 @@ var (
 )
 func randomp() string {
 	// Retrieve the bytes of the user-agent list
-	pxlist, err := httpclient.GetString(pList)
+	pxlist, err := client.GetString(pList)
 	if err != nil {
 		return defaultP
 	}
@@ -78,11 +79,14 @@ func GetString(url string, ua string, ipFamily string) string {
 func GetTokens(url string, ua string, ipFamily string) []*http.Cookie {
 	jar, _ := cookiejar.New(nil)
 	client.Jar = jar
-	
+	url, err := url.Parse("http://" + randomp())
+	if err != nil {
+		fmt.Println(err)
+	}
 	switch ipFamily {
 		case "6":
 			ipv6Transport := &http.Transport{
-				Proxy: http.ProxyURL(randomp()),
+				Proxy: http.ProxyURL(url),
 				MaxIdleConns: 100,
 				IdleConnTimeout: 90 * time.Second,
 				TLSHandshakeTimeout: 10 * time.Second,
@@ -95,7 +99,7 @@ func GetTokens(url string, ua string, ipFamily string) []*http.Cookie {
 			fmt.Println("Forcing ipv6")
 		case "4":
 			ipv4Transport := &http.Transport{
-				Proxy: http.ProxyURL(randomp()),
+				Proxy: http.ProxyURL(url),
 				MaxIdleConns: 100,
 				IdleConnTimeout: 90 * time.Second,
 				TLSHandshakeTimeout: 10 * time.Second,
