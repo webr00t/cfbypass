@@ -6,6 +6,7 @@ import (
 	"github.com/robertkrimen/otto"
 	"io/ioutil"
 	"net"
+	"math/rand"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
